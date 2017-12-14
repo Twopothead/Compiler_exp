@@ -1,0 +1,59 @@
+SLR_boolean_expression_parser 待分析语句如下:
+
+(   ( ( ( true or false ) and ( m > n) ) or ( not true)   and ( x > y)   #
+
+以上为待分析语句
+
+flex pl0lex.cpp
+g++ -o mypl0lex lex.yy.c -ll
+
+我的词法分析器正在分析程序test.pl0...
+
+./mypl0lex < test.pl0
+准备打开文件
+打开文件成功！，正在词法分析
+(:左括号
+(:左括号
+(:左括号
+(:左括号
+true:真
+or:或
+false:假
+):右括号
+and:与
+(:左括号
+m:标识符
+>:关系运算符
+n:标识符
+):右括号
+):右括号
+or:或
+(:左括号
+not:非
+true:真
+):右括号
+and:与
+(:左括号
+x:标识符
+>:关系运算符
+y:标识符
+):右括号
+#:井号
+词法分析完成！
+共有27个符号( ( ( ( true or false ) and ( id rop id ) ) or ( not true ) and ( id rop id ) # 
+归约所用产生式：[6]E -> true
+归约所用产生式：[7]E -> flase
+归约所用产生式：[1]E -> E or E
+归约所用产生式：[4]E -> ( E )
+归约所用产生式：[5]E -> id rop id
+归约所用产生式：[4]E -> ( E )
+归约所用产生式：[2]E -> E and E
+归约所用产生式：[4]E -> ( E )
+归约所用产生式：[6]E -> true
+归约所用产生式：[3]E -> not E
+归约所用产生式：[4]E -> ( E )
+归约所用产生式：[1]E -> E or E
+归约所用产生式：[5]E -> id rop id
+归约所用产生式：[4]E -> ( E )
+归约所用产生式：[2]E -> E and E 
+Fail! (not a boolean expression)  该语句不符合布尔表达式文法 

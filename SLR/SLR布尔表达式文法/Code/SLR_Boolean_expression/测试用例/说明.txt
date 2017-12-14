@@ -1,0 +1,9 @@
+测试用例里有test1.pl0 test2.pl0 test3.pl0 test4.pl0
+运行结果分别为result1.txt result2.txt result3.txt result4.txt
+读者可以利用重定向得到。
+
+本程序在Linux下运行
+本机环境：Ubuntu16.10
+test.pl0为输入的待分析的布尔表达式代码
+打开终端，cd到代码所在目录敲make，便可得到分析结果
+也可以使用make > result.txt将分析结果重定向到result.txt
