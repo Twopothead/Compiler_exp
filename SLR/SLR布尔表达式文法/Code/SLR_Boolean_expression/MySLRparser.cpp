@@ -23,16 +23,37 @@ int getsymcol(string sym)
         else if(sym=="E")return 10;
         return -1;
 }
+string getstrsymcol(int sym)
+{/*通过符号获取其相应的符号数*/
+        if(sym==0)return "not";//if(sym=="!")return 0;
+        else if(sym==1)return "and";//else if(sym=="&")return 1;
+        else if(sym==2)return ")";
+        else if(sym==3)return "(";
+        else if(sym==4)return "rop";//else if(sym=="p")return 4;
+        else if(sym==5)return "or";//else if(sym=="|")return 5;
+        else if(sym==6)return "true";//else if(sym=="1")return 6;
+        else if(sym==7) return "false";//else if(sym=="0")return 7;
+        else if(sym==8)return "id";
+        else if(sym==9)return "#";
+        else if(sym==10)return "E";
+        return " ";
+}
+
 void showBoolean_expression_rules(int i)
-{	
+{
 	if(i==1)cout<<"E -> E or E";
 	else if(i==2)cout<<"E -> E and E";
 	else if(i==3)cout<<"E -> not E";
 	else if(i==4)cout<<"E -> ( E )";
 	else if(i==5)cout<<"E -> id rop id";
 	else if(i==6)cout<<"E -> true";
-	else if(i==7)cout<<"E -> flase";
+	else if(i==7)cout<<"E -> false";
 	return;
+}
+void showrules()
+{
+cout<<"\nRules of Boolean expression's Grammar are as follows:"<<endl;
+for(int i=1;i<=7;i++)cout<<"["<<i<<"]",showBoolean_expression_rules(i),cout<<endl;
 }
 /*布尔表达式文法*/
 // E -> E | E   即 E -> E or E
@@ -73,6 +94,69 @@ int reducenum(int i)
         int num[7]={3,3,2,3,3,1,1};
         return num[i-1];
 }
+// string getTokenstr(Token token)
+// {
+//     int idx = static_cast<int>(token);
+//     return Tokenstr[idx];
+// }
+
+        // | State | !  | &  |  )  | (  |  p  | |  | 1  | 0  |  id |   #    |  E  |
+string getTokenstr(int token)
+{
+    int idx = token;
+    return Tokenstr[idx];
+}
+void showstack(stack<int> s)
+{
+        int tmp;
+        cout<<"\nstate stack :\t";
+        stack<int> anothers;
+        while(!s.empty()){
+
+                tmp=s.top();
+                s.pop();
+                anothers.push(tmp);
+        }
+        while(!anothers.empty()){
+
+                tmp=anothers.top();
+                anothers.pop();
+                cout<<tmp<<" ";
+                //cout<<getstrsymcol(tmp)<<" ";
+                //cout<<getTokenstr(tmp);
+        }
+        //cout<<endl;
+}
+void showSTRstack(stack<string> s)
+{
+        string tmp;
+        stack<string> anothers;
+        while(!s.empty()){
+
+                tmp=s.top();
+                s.pop();
+                anothers.push(tmp);
+        }
+        cout<<"\nsymbol stack:\t";
+        while(!anothers.empty()){
+
+                tmp=anothers.top();
+                anothers.pop();
+                cout<<tmp<<" ";
+                //cout<<getTokenstr(tmp);
+        }
+        //cout<<endl;
+}
+void showsym(int ip){
+        int i;
+        cout<<"\ninput string:\t";
+        for(i=ip;i<100;i++){
+                cout<<globalstr[i]<<" ";
+                if(globalstr[i]=="")break;
+
+        }
+        //cout<<endl;
+}
 
 int SLR_parser()
 {/*这里使用plolex.cpp里定义的全局字符串数组globalstr*/
@@ -107,16 +191,30 @@ int SLR_parser()
                 0 ,-5,-5,0 ,0 ,-5,0 ,0 ,0 ,-5,          0 //15
         };
         stack<int> statestack;/*状态栈*/
+
+
+        stack<string> symbolstack;/*符号栈*/
+
         statestack.push(0);/*开始是0状态*/
+
         ip=0;
+
+        symbolstack.push("#");
         while(1){
+
                 //sym=str[ip];/*获得符号*/
 		sym=globalstr[ip];/*这里从另一个文件pl0lex.cpp里定义的全局字符串数组获得符号*/
                 sym_col=getsymcol(sym);/*获得符号数*/
                 state_row=statestack.top();/*得到栈顶当前状态*/
+                showstack(statestack);
+                showSTRstack(symbolstack);
+                showsym(ip);
+                cout<<endl;
                 if(ACTION_GOTO[state_row][sym_col]>0){/*Shift 移进*/
                         if(ACTION_GOTO[state_row][sym_col]!=ACC){/*接受ACC在表中是888*/
                                 statestack.push(ACTION_GOTO[state_row][sym_col]);
+                                //cout<<"sym_col:"<<getstrsymcol(sym_col);
+                                symbolstack.push(getstrsymcol(sym_col));
                         }else{
                                 cout<<" \nSuccess! （is boolean expression）该语句符合布尔表达式文法 \n";
                                 break;
@@ -127,15 +225,24 @@ int SLR_parser()
                         Reduce_j_reducenum=reducenum(Reduce_j);cout<<"\n归约所用产生式：["<<Reduce_j<<"]",showBoolean_expression_rules(Reduce_j);
                         for(j=0;j< Reduce_j_reducenum;j++){
                                 statestack.pop();
+                                symbolstack.pop();
                         }
                         statestack.push(ACTION_GOTO[statestack.top()][getsymcol(nt[Reduce_j-1])]);
+                        symbolstack.push(getstrsymcol(getsymcol(nt[Reduce_j-1])));
                 }else{
                         cout<<" \nFail! (not a boolean expression)  该语句不符合布尔表达式文法 \n";
                         break;
                 }
         }
+
+
+        showSTRstack(symbolstack);
+
         return 0;
 }
+
+
+
 
 int SLR_demo()
 {/*A complete simple demo for SLR Analysis,This is GOOD CODE.*/

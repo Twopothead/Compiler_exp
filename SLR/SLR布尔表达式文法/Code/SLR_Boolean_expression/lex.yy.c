@@ -558,10 +558,27 @@ Token CurrentToken;/*当前的那个Token*/
 int total_token=0;
 int i_Global=0;
 /*以下为SLR实验相关*/
+const char* Tokenstr[]={
+	/*Boolean expression SLR实验相关*/
+	"notsym","andsym","orsym","truesym","falsesym",
+
+	/*VN*/
+	"beginsym","callsym","constsym","dosym","endsym","ifsym",
+	"oddsym","procsym","readsym","thensym","varsym","whilesym"","
+	"writesym","plus","minus","times","slash","lparen","rparen",
+	"eql","comma","period","neg","semicolon",
+	/*VT*/
+	"ident",/*标识符*/
+	"number",/*数字*/
+	"block","factor","expression",
+	"term","condition",
+	"relationop",/*关系运算符号*/
+	"become"/*赋值符号 :=*/
+};
 
 
 
-#line 565 "lex.yy.c"
+#line 582 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -779,9 +796,9 @@ YY_DECL
 		}
 
 	{
-#line 50 "pl0lex.cpp"
+#line 67 "pl0lex.cpp"
 
-#line 785 "lex.yy.c"
+#line 802 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -840,157 +857,157 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 51 "pl0lex.cpp"
+#line 68 "pl0lex.cpp"
 {/*SLR boolean expression*/printf("%s:非\n",yytext);mytoken[total_token]=notsym;total_token++;/*notsym*/}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 52 "pl0lex.cpp"
+#line 69 "pl0lex.cpp"
 {/*SLR*/printf("%s:与\n",yytext);mytoken[total_token]=andsym;total_token++;/*andsym*/}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 53 "pl0lex.cpp"
+#line 70 "pl0lex.cpp"
 {/*SLR*/printf("%s:或\n",yytext);mytoken[total_token]=orsym;total_token++;/*orsym*/}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 54 "pl0lex.cpp"
+#line 71 "pl0lex.cpp"
 {/*SLR*/printf("%s:真\n",yytext);mytoken[total_token]=truesym;total_token++;/*truesym*/}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 55 "pl0lex.cpp"
+#line 72 "pl0lex.cpp"
 {/*SLR*/printf("%s:假\n",yytext);mytoken[total_token]=falsesym;total_token++;/*falsesym*/}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 60 "pl0lex.cpp"
+#line 77 "pl0lex.cpp"
 {	printf("%s:开始\n",yytext);mytoken[total_token]=beginsym;total_token++;/*beginsym*/}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 61 "pl0lex.cpp"
+#line 78 "pl0lex.cpp"
 {	printf("%s:调用\n",yytext);mytoken[total_token]=callsym;total_token++;/*callsym*/}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 62 "pl0lex.cpp"
+#line 79 "pl0lex.cpp"
 {	printf("%s:常量\n",yytext);mytoken[total_token]=constsym;total_token++;/*constsym*/}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 63 "pl0lex.cpp"
+#line 80 "pl0lex.cpp"
 {	printf("%s:做\n",yytext);mytoken[total_token]=dosym;total_token++;/*dosym*/}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 64 "pl0lex.cpp"
+#line 81 "pl0lex.cpp"
 {	printf("%s:结束\n",yytext);mytoken[total_token]=endsym;total_token++; /*endsym*/}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 65 "pl0lex.cpp"
+#line 82 "pl0lex.cpp"
 {	printf("%s:如果\n",yytext);mytoken[total_token]=ifsym;total_token++; /*ifsym*/}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 66 "pl0lex.cpp"
+#line 83 "pl0lex.cpp"
 {	printf("%s:ODD\n",yytext);mytoken[total_token]=oddsym;total_token++; /*oddsym*/}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 67 "pl0lex.cpp"
+#line 84 "pl0lex.cpp"
 {	printf("%s:过程\n",yytext);mytoken[total_token]=procsym;total_token++; /*procsym*/}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 68 "pl0lex.cpp"
+#line 85 "pl0lex.cpp"
 {	printf("%s:读\n",yytext);mytoken[total_token]=readsym;total_token++; /*readsym*/}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 69 "pl0lex.cpp"
+#line 86 "pl0lex.cpp"
 {	printf("%s:然后\n",yytext);mytoken[total_token]=thensym;total_token++;/*thensym*/}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 70 "pl0lex.cpp"
+#line 87 "pl0lex.cpp"
 {	printf("%s:变量声明\n",yytext);mytoken[total_token]=varsym;total_token++;/*var*/}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 71 "pl0lex.cpp"
+#line 88 "pl0lex.cpp"
 {	printf("%s:当\n",yytext);mytoken[total_token]=whilesym;total_token++;/*whilesym*/}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 72 "pl0lex.cpp"
+#line 89 "pl0lex.cpp"
 {	printf("%s:写\n",yytext);mytoken[total_token]=writesym;total_token++;/*writesym*/}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 73 "pl0lex.cpp"
+#line 90 "pl0lex.cpp"
 {	printf("%s:加\n",yytext);mytoken[total_token]=plus;total_token++;/*plus*/}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 74 "pl0lex.cpp"
+#line 91 "pl0lex.cpp"
 {	printf("%s:减\n",yytext);mytoken[total_token]=minus;total_token++;/*minus*/}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 75 "pl0lex.cpp"
+#line 92 "pl0lex.cpp"
 {	printf("%s:乘\n",yytext);mytoken[total_token]=times;total_token++;/*times*/}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 76 "pl0lex.cpp"
+#line 93 "pl0lex.cpp"
 {	printf("%s:除\n",yytext);mytoken[total_token]=slash;total_token++;/*slash*/}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 77 "pl0lex.cpp"
+#line 94 "pl0lex.cpp"
 {	printf("%s:左括号\n",yytext);mytoken[total_token]=lparen;total_token++;/*lparen*/}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 78 "pl0lex.cpp"
+#line 95 "pl0lex.cpp"
 {	printf("%s:右括号\n",yytext);mytoken[total_token]=rparen;total_token++;/*rparen*/}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 79 "pl0lex.cpp"
+#line 96 "pl0lex.cpp"
 {	printf("%s:等于号\n",yytext);mytoken[total_token]=eql;total_token++;/*eql*/}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 80 "pl0lex.cpp"
+#line 97 "pl0lex.cpp"
 {	printf("%s:逗号\n",yytext);mytoken[total_token]=comma;total_token++;/*comma*/}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 81 "pl0lex.cpp"
+#line 98 "pl0lex.cpp"
 {	printf("%s:点！程序结束\n",yytext);mytoken[total_token]=period;total_token++;/*period*/}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 82 "pl0lex.cpp"
+#line 99 "pl0lex.cpp"
 {	printf("%s:井号\n",yytext);mytoken[total_token]=neg;total_token++;/*neg*/}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 83 "pl0lex.cpp"
+#line 100 "pl0lex.cpp"
 {	printf("%s:分号\n",yytext);mytoken[total_token]=semicolon;total_token++;/*semicolon*/}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 86 "pl0lex.cpp"
+#line 103 "pl0lex.cpp"
 { 	printf("%s:关系运算符\n",yytext);mytoken[total_token]=relationop;total_token++;/*relationop*/}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 87 "pl0lex.cpp"
+#line 104 "pl0lex.cpp"
 { 	printf("%s:乘法运算符\n",yytext);}
 	YY_BREAK
 case 32:
@@ -998,12 +1015,12 @@ case 32:
 (yy_c_buf_p) = yy_cp -= 1;
 YY_DO_BEFORE_ACTION; /* set up yytext again */
 YY_RULE_SETUP
-#line 88 "pl0lex.cpp"
+#line 105 "pl0lex.cpp"
 {	printf("%s:数字\n",yytext);mytoken[total_token]=number;total_token++;/*number*/}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 89 "pl0lex.cpp"
+#line 106 "pl0lex.cpp"
 { 	printf("%s:赋值\n",yytext);mytoken[total_token]=relationop;total_token++;/*become*/
 /*
 [0-9][0-9]*	{ 	printf("%s:无符号整数\n",yytext);}
@@ -1013,36 +1030,36 @@ YY_RULE_SETUP
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 95 "pl0lex.cpp"
+#line 112 "pl0lex.cpp"
 { printf("%s:标识符\n",yytext);mytoken[total_token]=ident;total_token++;/*ident*/}
 	YY_BREAK
 case 35:
 /* rule 35 can match eol */
 YY_RULE_SETUP
-#line 96 "pl0lex.cpp"
+#line 113 "pl0lex.cpp"
 { /*printf("%s:换行符\n",yytext);*/ ++num_lines; ++num_chars;}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 97 "pl0lex.cpp"
+#line 114 "pl0lex.cpp"
 { /*printf("%s:制表符\n",yytext);*//*过滤空白*/}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 98 "pl0lex.cpp"
+#line 115 "pl0lex.cpp"
 { /*printf("%s:空白\n",yytext);*/}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 99 "pl0lex.cpp"
+#line 116 "pl0lex.cpp"
 { ++num_chars;}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 100 "pl0lex.cpp"
+#line 117 "pl0lex.cpp"
 ECHO;
 	YY_BREAK
-#line 1046 "lex.yy.c"
+#line 1063 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2043,13 +2060,13 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 100 "pl0lex.cpp"
+#line 117 "pl0lex.cpp"
 
 
 using namespace std;
 string globalstr[1000];/*全局字符串比如id rop id 这种依次放进去*/
 string cast_sym(int i)/*这里把SLR 布尔表达式文法里用到的符号进行转换*/
-{//enum -> string 
+{//enum -> string
 	string a="";
 	if(i==ident){a="id";}
 	else if(i==relationop){a="rop";}
@@ -2079,13 +2096,14 @@ int main( int argc, char **argv )
 	printf("词法分析完成！\n");
 	cout<<"共有"<<total_token<<"个符号";
 	for(int i=0;i<total_token;i++){
-	 /*cout<<mytoken[i]<<" ";*/	
+	 /*cout<<mytoken[i]<<" ";*/
 	 cout<<cast_sym(mytoken[i])<<" ";
 	 globalstr[i]=cast_sym(mytoken[i]);/*把分析好的存入全局符号串，例如x>y#转为id rop id #存入*/
 	}
 	//for(int i=0;i<total_token;i++)cout<<globalstr[i];
+	showrules();
 	SLR_parser();/*进行SLR分析判断是否是，本次最重要的内容*/
-	
+
 	return 0;
 }
 

@@ -42,6 +42,23 @@ Token CurrentToken;/*当前的那个Token*/
 int total_token=0;
 int i_Global=0;
 /*以下为SLR实验相关*/
+const char* Tokenstr[]={
+	/*Boolean expression SLR实验相关*/
+	"notsym","andsym","orsym","truesym","falsesym",
+
+	/*VN*/
+	"beginsym","callsym","constsym","dosym","endsym","ifsym",
+	"oddsym","procsym","readsym","thensym","varsym","whilesym"","
+	"writesym","plus","minus","times","slash","lparen","rparen",
+	"eql","comma","period","neg","semicolon",
+	/*VT*/
+	"ident",/*标识符*/
+	"number",/*数字*/
+	"block","factor","expression",
+	"term","condition",
+	"relationop",/*关系运算符号*/
+	"become"/*赋值符号 :=*/
+};
 
 
 
@@ -101,7 +118,7 @@ write		{	printf("%s:写\n",yytext);mytoken[total_token]=writesym;total_token++;/
 using namespace std;
 string globalstr[1000];/*全局字符串比如id rop id 这种依次放进去*/
 string cast_sym(int i)/*这里把SLR 布尔表达式文法里用到的符号进行转换*/
-{//enum -> string 
+{//enum -> string
 	string a="";
 	if(i==ident){a="id";}
 	else if(i==relationop){a="rop";}
@@ -131,12 +148,13 @@ int main( int argc, char **argv )
 	printf("词法分析完成！\n");
 	cout<<"共有"<<total_token<<"个符号";
 	for(int i=0;i<total_token;i++){
-	 /*cout<<mytoken[i]<<" ";*/	
+	 /*cout<<mytoken[i]<<" ";*/
 	 cout<<cast_sym(mytoken[i])<<" ";
 	 globalstr[i]=cast_sym(mytoken[i]);/*把分析好的存入全局符号串，例如x>y#转为id rop id #存入*/
 	}
 	//for(int i=0;i<total_token;i++)cout<<globalstr[i];
+	showrules();
 	SLR_parser();/*进行SLR分析判断是否是，本次最重要的内容*/
-	
+
 	return 0;
 }

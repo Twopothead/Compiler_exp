@@ -1,0 +1,138 @@
+SLR_boolean_expression_parser 待分析语句如下:
+
+( ( x > y ) or ( true and false ) )#
+
+以上为待分析语句
+
+flex pl0lex.cpp
+g++ -o mypl0lex lex.yy.c -ll
+
+我的词法分析器正在分析程序test.pl0...
+
+./mypl0lex < test.pl0
+准备打开文件
+打开文件成功！，正在词法分析
+(:左括号
+(:左括号
+x:标识符
+>:关系运算符
+y:标识符
+):右括号
+or:或
+(:左括号
+true:真
+and:与
+false:假
+):右括号
+):右括号
+#:井号
+词法分析完成！
+共有14个符号( ( id rop id ) or ( true and false ) ) # 
+Rules of Boolean expression's Grammar are as follows:
+[1]E -> E or E
+[2]E -> E and E
+[3]E -> not E
+[4]E -> ( E )
+[5]E -> id rop id
+[6]E -> true
+[7]E -> false
+
+state stack :	0 
+symbol stack:	# 
+input string:	( ( id rop id ) or ( true and false ) ) #  
+
+state stack :	0 3 
+symbol stack:	# ( 
+input string:	( id rop id ) or ( true and false ) ) #  
+
+state stack :	0 3 3 
+symbol stack:	# ( ( 
+input string:	id rop id ) or ( true and false ) ) #  
+
+state stack :	0 3 3 4 
+symbol stack:	# ( ( id 
+input string:	rop id ) or ( true and false ) ) #  
+
+state stack :	0 3 3 4 11 
+symbol stack:	# ( ( id rop 
+input string:	id ) or ( true and false ) ) #  
+
+state stack :	0 3 3 4 11 15 
+symbol stack:	# ( ( id rop id 
+input string:	) or ( true and false ) ) #  
+
+归约所用产生式：[5]E -> id rop id
+state stack :	0 3 3 10 
+symbol stack:	# ( ( E 
+input string:	) or ( true and false ) ) #  
+
+state stack :	0 3 3 10 14 
+symbol stack:	# ( ( E ) 
+input string:	or ( true and false ) ) #  
+
+归约所用产生式：[4]E -> ( E )
+state stack :	0 3 10 
+symbol stack:	# ( E 
+input string:	or ( true and false ) ) #  
+
+state stack :	0 3 10 7 
+symbol stack:	# ( E or 
+input string:	( true and false ) ) #  
+
+state stack :	0 3 10 7 3 
+symbol stack:	# ( E or ( 
+input string:	true and false ) ) #  
+
+state stack :	0 3 10 7 3 5 
+symbol stack:	# ( E or ( true 
+input string:	and false ) ) #  
+
+归约所用产生式：[6]E -> true
+state stack :	0 3 10 7 3 10 
+symbol stack:	# ( E or ( E 
+input string:	and false ) ) #  
+
+state stack :	0 3 10 7 3 10 8 
+symbol stack:	# ( E or ( E and 
+input string:	false ) ) #  
+
+state stack :	0 3 10 7 3 10 8 6 
+symbol stack:	# ( E or ( E and false 
+input string:	) ) #  
+
+归约所用产生式：[7]E -> false
+state stack :	0 3 10 7 3 10 8 13 
+symbol stack:	# ( E or ( E and E 
+input string:	) ) #  
+
+归约所用产生式：[2]E -> E and E
+state stack :	0 3 10 7 3 10 
+symbol stack:	# ( E or ( E 
+input string:	) ) #  
+
+state stack :	0 3 10 7 3 10 14 
+symbol stack:	# ( E or ( E ) 
+input string:	) #  
+
+归约所用产生式：[4]E -> ( E )
+state stack :	0 3 10 7 12 
+symbol stack:	# ( E or E 
+input string:	) #  
+
+归约所用产生式：[1]E -> E or E
+state stack :	0 3 10 
+symbol stack:	# ( E 
+input string:	) #  
+
+state stack :	0 3 10 14 
+symbol stack:	# ( E ) 
+input string:	#  
+
+归约所用产生式：[4]E -> ( E )
+state stack :	0 1 
+symbol stack:	# E 
+input string:	#  
+ 
+Success! （is boolean expression）该语句符合布尔表达式文法 
+
+symbol stack:	# E 
