@@ -1,0 +1,291 @@
+SLR_boolean_expression_parser 待分析语句如下:
+
+((( a > b ) and ( c < d ) )or ( e < f )) #
+
+以上为待分析语句
+
+flex pl0lex.cpp
+g++ -o mypl0lex lex.yy.c -ll
+
+我的词法分析器正在分析程序test.pl0...
+
+./mypl0lex < test.pl0
+准备打开文件
+打开文件成功！，正在词法分析
+(:左括号
+(:左括号
+(:左括号
+a:标识符
+>:关系运算符
+b:标识符
+):右括号
+and:与
+(:左括号
+c:标识符
+<:关系运算符
+d:标识符
+):右括号
+):右括号
+or:或
+(:左括号
+e:标识符
+<:关系运算符
+f:标识符
+):右括号
+):右括号
+#:井号
+词法分析完成！
+共有22个符号( ( ( id rop id ) and ( id rop id ) ) or ( id rop id ) ) # 
+Rules of Boolean expression's Grammar are as follows:
+[1]E -> E or E
+[2]E -> E and E
+[3]E -> not E
+[4]E -> ( E )
+[5]E -> id rop id
+[6]E -> true
+[7]E -> false
+
+state stack :	0 
+symbol stack:	# 
+SemanticStack:	- 
+
+input string:	( ( ( id rop id ) and ( id rop id ) ) or ( id rop id ) ) #  
+raw  string :	( ( ( a > b ) and ( c < d ) ) or ( e < f ) ) #  
+
+state stack :	0 3 
+symbol stack:	# ( 
+SemanticStack:	- ( 
+
+input string:	( ( id rop id ) and ( id rop id ) ) or ( id rop id ) ) #  
+raw  string :	( ( a > b ) and ( c < d ) ) or ( e < f ) ) #  
+
+state stack :	0 3 3 
+symbol stack:	# ( ( 
+SemanticStack:	- ( ( 
+
+input string:	( id rop id ) and ( id rop id ) ) or ( id rop id ) ) #  
+raw  string :	( a > b ) and ( c < d ) ) or ( e < f ) ) #  
+
+state stack :	0 3 3 3 
+symbol stack:	# ( ( ( 
+SemanticStack:	- ( ( ( 
+
+input string:	id rop id ) and ( id rop id ) ) or ( id rop id ) ) #  
+raw  string :	a > b ) and ( c < d ) ) or ( e < f ) ) #  
+
+state stack :	0 3 3 3 4 
+symbol stack:	# ( ( ( id 
+SemanticStack:	- ( ( ( a 
+
+input string:	rop id ) and ( id rop id ) ) or ( id rop id ) ) #  
+raw  string :	> b ) and ( c < d ) ) or ( e < f ) ) #  
+
+state stack :	0 3 3 3 4 11 
+symbol stack:	# ( ( ( id rop 
+SemanticStack:	- ( ( ( a > 
+
+input string:	id ) and ( id rop id ) ) or ( id rop id ) ) #  
+raw  string :	b ) and ( c < d ) ) or ( e < f ) ) #  
+
+state stack :	0 3 3 3 4 11 15 
+symbol stack:	# ( ( ( id rop id 
+SemanticStack:	- ( ( ( a > b 
+
+input string:	) and ( id rop id ) ) or ( id rop id ) ) #  
+raw  string :	) and ( c < d ) ) or ( e < f ) ) #  
+
+归约所用产生式：[5]E -> id rop id
+state stack :	0 3 3 3 10 
+symbol stack:	# ( ( ( E 
+SemanticStack:	- ( ( ( x 
+
+input string:	) and ( id rop id ) ) or ( id rop id ) ) #  
+raw  string :	) and ( c < d ) ) or ( e < f ) ) #  
+
+state stack :	0 3 3 3 10 14 
+symbol stack:	# ( ( ( E ) 
+SemanticStack:	- ( ( ( x ) 
+
+input string:	and ( id rop id ) ) or ( id rop id ) ) #  
+raw  string :	and ( c < d ) ) or ( e < f ) ) #  
+
+归约所用产生式：[4]E -> ( E )
+state stack :	0 3 3 10 
+symbol stack:	# ( ( E 
+SemanticStack:	- ( ( x 
+
+input string:	and ( id rop id ) ) or ( id rop id ) ) #  
+raw  string :	and ( c < d ) ) or ( e < f ) ) #  
+
+state stack :	0 3 3 10 8 
+symbol stack:	# ( ( E and 
+SemanticStack:	- ( ( x and 
+
+input string:	( id rop id ) ) or ( id rop id ) ) #  
+raw  string :	( c < d ) ) or ( e < f ) ) #  
+
+state stack :	0 3 3 10 8 3 
+symbol stack:	# ( ( E and ( 
+SemanticStack:	- ( ( x and ( 
+
+input string:	id rop id ) ) or ( id rop id ) ) #  
+raw  string :	c < d ) ) or ( e < f ) ) #  
+
+state stack :	0 3 3 10 8 3 4 
+symbol stack:	# ( ( E and ( id 
+SemanticStack:	- ( ( x and ( c 
+
+input string:	rop id ) ) or ( id rop id ) ) #  
+raw  string :	< d ) ) or ( e < f ) ) #  
+
+state stack :	0 3 3 10 8 3 4 11 
+symbol stack:	# ( ( E and ( id rop 
+SemanticStack:	- ( ( x and ( c < 
+
+input string:	id ) ) or ( id rop id ) ) #  
+raw  string :	d ) ) or ( e < f ) ) #  
+
+state stack :	0 3 3 10 8 3 4 11 15 
+symbol stack:	# ( ( E and ( id rop id 
+SemanticStack:	- ( ( x and ( c < d 
+
+input string:	) ) or ( id rop id ) ) #  
+raw  string :	) ) or ( e < f ) ) #  
+
+归约所用产生式：[5]E -> id rop id
+state stack :	0 3 3 10 8 3 10 
+symbol stack:	# ( ( E and ( E 
+SemanticStack:	- ( ( x and ( x 
+
+input string:	) ) or ( id rop id ) ) #  
+raw  string :	) ) or ( e < f ) ) #  
+
+state stack :	0 3 3 10 8 3 10 14 
+symbol stack:	# ( ( E and ( E ) 
+SemanticStack:	- ( ( x and ( x ) 
+
+input string:	) or ( id rop id ) ) #  
+raw  string :	) or ( e < f ) ) #  
+
+归约所用产生式：[4]E -> ( E )
+state stack :	0 3 3 10 8 13 
+symbol stack:	# ( ( E and E 
+SemanticStack:	- ( ( x and x 
+
+input string:	) or ( id rop id ) ) #  
+raw  string :	) or ( e < f ) ) #  
+
+归约所用产生式：[2]E -> E and E
+state stack :	0 3 3 10 
+symbol stack:	# ( ( E 
+SemanticStack:	- ( ( x 
+
+input string:	) or ( id rop id ) ) #  
+raw  string :	) or ( e < f ) ) #  
+
+state stack :	0 3 3 10 14 
+symbol stack:	# ( ( E ) 
+SemanticStack:	- ( ( x ) 
+
+input string:	or ( id rop id ) ) #  
+raw  string :	or ( e < f ) ) #  
+
+归约所用产生式：[4]E -> ( E )
+state stack :	0 3 10 
+symbol stack:	# ( E 
+SemanticStack:	- ( x 
+
+input string:	or ( id rop id ) ) #  
+raw  string :	or ( e < f ) ) #  
+
+state stack :	0 3 10 7 
+symbol stack:	# ( E or 
+SemanticStack:	- ( x or 
+
+input string:	( id rop id ) ) #  
+raw  string :	( e < f ) ) #  
+
+state stack :	0 3 10 7 3 
+symbol stack:	# ( E or ( 
+SemanticStack:	- ( x or ( 
+
+input string:	id rop id ) ) #  
+raw  string :	e < f ) ) #  
+
+state stack :	0 3 10 7 3 4 
+symbol stack:	# ( E or ( id 
+SemanticStack:	- ( x or ( e 
+
+input string:	rop id ) ) #  
+raw  string :	< f ) ) #  
+
+state stack :	0 3 10 7 3 4 11 
+symbol stack:	# ( E or ( id rop 
+SemanticStack:	- ( x or ( e < 
+
+input string:	id ) ) #  
+raw  string :	f ) ) #  
+
+state stack :	0 3 10 7 3 4 11 15 
+symbol stack:	# ( E or ( id rop id 
+SemanticStack:	- ( x or ( e < f 
+
+input string:	) ) #  
+raw  string :	) ) #  
+
+归约所用产生式：[5]E -> id rop id
+state stack :	0 3 10 7 3 10 
+symbol stack:	# ( E or ( E 
+SemanticStack:	- ( x or ( x 
+
+input string:	) ) #  
+raw  string :	) ) #  
+
+state stack :	0 3 10 7 3 10 14 
+symbol stack:	# ( E or ( E ) 
+SemanticStack:	- ( x or ( x ) 
+
+input string:	) #  
+raw  string :	) #  
+
+归约所用产生式：[4]E -> ( E )
+state stack :	0 3 10 7 12 
+symbol stack:	# ( E or E 
+SemanticStack:	- ( x or x 
+
+input string:	) #  
+raw  string :	) #  
+
+归约所用产生式：[1]E -> E or E
+state stack :	0 3 10 
+symbol stack:	# ( E 
+SemanticStack:	- ( x 
+
+input string:	) #  
+raw  string :	) #  
+
+state stack :	0 3 10 14 
+symbol stack:	# ( E ) 
+SemanticStack:	- ( x ) 
+
+input string:	#  
+raw  string :	#  
+
+归约所用产生式：[4]E -> ( E )
+state stack :	0 1 
+symbol stack:	# E 
+SemanticStack:	- x 
+
+input string:	#  
+raw  string :	#  
+ 
+Success! （is boolean expression）该语句符合布尔表达式文法 
+
+symbol stack:	# E 
+ generated pcode:
+[100]	{> ,a ,b ,102 }
+[101]	{j ,- ,- ,104 }
+[102]	{< ,c ,d ,true }
+[103]	{j ,- ,- ,101 }
+[104]	{< ,e ,f ,102 }
+[105]	{j ,- ,- ,false }

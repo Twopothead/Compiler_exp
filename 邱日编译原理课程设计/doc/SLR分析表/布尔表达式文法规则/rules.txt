@@ -1,0 +1,8 @@
+布尔表达式文法规则
+[1] E -> E | E   即 E -> E or E
+[2] E -> E & E   即 E -> E and E
+[3] E -> ! E     即 E -> not E
+[4] E -> ( E )
+[5] E -> id p id 即 E -> id rop id  其中rop为关系运算符
+[6] E -> 1       即 E -> true
+[7] E -> 0       即 E -> flase
